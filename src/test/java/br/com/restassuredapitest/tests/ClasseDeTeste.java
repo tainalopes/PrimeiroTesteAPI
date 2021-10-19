@@ -1,4 +1,4 @@
-package br.com.restassuredapitest;
+package br.com.restassuredapitest.tests;
 
 import br.com.restassuredapitest.suites.AllTests;
 import io.restassured.response.Response;
@@ -22,19 +22,5 @@ public class ClasseDeTeste {
         responsePing
                 .then()
                 .statusCode(201);
-    }
-
-    @Test
-    @Category({AllTests.class})
-    public void validaListagemDeIdsDasReservas(){
-        Response responseListagemIdsReservas =
-                given()
-                        .when()
-                        .get("https://treinamento-api.herokuapp.com/booking");
-
-        responseListagemIdsReservas
-                .then()
-                .statusCode(200)
-                .body("size()", greaterThan(0));
     }
 }

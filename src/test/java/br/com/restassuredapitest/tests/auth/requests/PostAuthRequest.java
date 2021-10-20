@@ -14,7 +14,7 @@ public class PostAuthRequest {
                 .header("Content-Type", "application/json")
                 .when()
                 .body(authPayloads.jsonAuthLogin().toString())
-                .post("https://treinamento-api.herokuapp.com/auth");
+                .post("auth"); //a url inicial está em "BaseTest", aqui vai csomente o resto do caminho
     }
 
     public String getToken(){

@@ -9,6 +9,6 @@ public class GetPingRequest {
         return given()
                 .header("Content-Type", "application/json")
                 .when()
-                .get("https://treinamento-api.herokuapp.com/ping");
+                .get("ping"); //a url inicial está em "BaseTest", aqui vai csomente o resto do caminho
     }
 }

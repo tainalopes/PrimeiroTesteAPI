@@ -14,11 +14,11 @@ public class PostAuthRequest {
                 .header("Content-Type", "application/json")
                 .when()
                 .body(authPayloads.jsonAuthLogin().toString())
-                .post("auth"); //a url inicial está em "BaseTest", aqui vai csomente o resto do caminho
+                .post("auth");
     }
 
     public String getToken(){
-        return "token"+this.tokenReturn()
+        return "token="+this.tokenReturn()
                 .then()
                 .statusCode(200)
                 .extract()

@@ -9,6 +9,6 @@ public class GetBookingRequest {
     public Response bookingReturnIds(){
         return given()
                 .when()
-                .get("booking"); //a url inicial está em "BaseTest", aqui vai csomente o resto do caminho
+                .get("booking"); //a url inicial está em "BaseTest", aqui vai somente o resto do caminho
     }
 }

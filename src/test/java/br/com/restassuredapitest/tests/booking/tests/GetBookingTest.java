@@ -14,9 +14,9 @@ public class GetBookingTest extends BaseTest {
     @Category({AllTests.class})
     public void validaListagemDeIdsDasReservas(){
 
-        getBookingRequest.bookingReturnIds()
-                .then()
-                .statusCode(200)
-                .body("size()", greaterThan(0));
+            getBookingRequest.bookingReturnIds()
+                    .then()
+                    .statusCode(200)
+                    .body("size()", greaterThan(0));
     }
 }

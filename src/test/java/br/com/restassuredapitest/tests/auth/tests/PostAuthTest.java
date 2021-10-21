@@ -2,6 +2,7 @@ package br.com.restassuredapitest.tests.auth.tests;
 
 import br.com.restassuredapitest.base.BaseTest;
 import br.com.restassuredapitest.suites.AllTests;
+import br.com.restassuredapitest.suites.SmokeTests;
 import br.com.restassuredapitest.tests.auth.requests.PostAuthRequest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -13,7 +14,7 @@ public class PostAuthTest extends BaseTest {
     PostAuthRequest postAuthRequest = new PostAuthRequest();
 
     @Test
-    @Category(AllTests.class)
+    @Category({AllTests.class, SmokeTests.class})
     public void validaRetornoDeTokenParaUsuario(){
         postAuthRequest.tokenReturn()
                 .then()

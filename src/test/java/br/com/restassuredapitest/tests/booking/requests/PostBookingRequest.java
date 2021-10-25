@@ -10,7 +10,6 @@ public class PostBookingRequest {
     BookingPayloads bookingPayloads = new BookingPayloads();
 
     @Step("Criar uma nova reserva")
-
     public Response createANewBooking(){
         return given()
                 .header("Content-Type", "application/json")
@@ -19,8 +18,18 @@ public class PostBookingRequest {
                 .body(bookingPayloads.payloadValidBooking().toString())
                 .post("booking");
     }
-//------------------------------------------------------------------
-    @Step("Cria uma reserva com payload incorreto")
+
+    @Step("Criar uma nova reserva com mais parâmetros")
+    public Response createANewBookingWithMoreParameters(){
+        return given()
+                .header("Content-Type", "application/json")
+                .when()
+                .log().all()
+                .body(bookingPayloads.payloadWithMoreParameters().toString())
+                .post("booking");
+    }
+
+    @Step("Criar uma reserva com payload incorreto")
     public Response createInvalidBooking() {
         return given()
                 .header("Content-Type", "application/json")
@@ -28,6 +37,4 @@ public class PostBookingRequest {
                 .body(BookingPayloads.payloadCreateInvalidBooking().toString())
                 .post("booking/");
     }
-
-    //------------------------------------------------------------------
 }

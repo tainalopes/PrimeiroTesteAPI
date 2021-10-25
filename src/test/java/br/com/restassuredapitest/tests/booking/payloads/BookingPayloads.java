@@ -40,8 +40,6 @@ public class BookingPayloads{
         return payload;
     }
 
-//-----------------------------------------------------------------------
-
     public static JSONObject payloadCreateInvalidBooking() {
         JSONObject payload = new JSONObject();
         JSONObject bookingDates = new JSONObject();
@@ -59,7 +57,4 @@ public class BookingPayloads{
 
         return payload;
     }
-    //-----------------------------------------------------------------------
-
-
 }

@@ -61,4 +61,16 @@ public class PostBookingTest extends BaseTest {
             i++;
         }
     }
+
+    @Test
+    @Severity(SeverityLevel.NORMAL)
+    @Category({AllTests.class, EndToEndTests.class})
+    @DisplayName("Criar uma reserva enviando mais parâmetros no payload da reserva")
+    public void testAddBookingWithMoreParameters(){
+
+        postBookingRequest.createANewBookingWithMoreParameters()
+                .then()
+                .log().all()
+                .statusCode(200); //ERRADO, ATENÇÃO!!!!!!!!!!!!!!
+    }
 }

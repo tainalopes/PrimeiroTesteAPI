@@ -2,7 +2,6 @@ package br.com.restassuredapitest.tests.booking.requests;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import io.restassured.response.Validatable;
 
 import static io.restassured.RestAssured.given;
 

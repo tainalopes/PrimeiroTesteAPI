@@ -1,6 +1,13 @@
 1 - Na parte do desafio onde pede:
         "Listar IDs de reservas utilizando o filtro name, checkin and checkout date"
-        eu levei em consideração que name é firstname e lastname, senão acredito que teria sido solicitado um dos 2.
+        Eu levei em consideração que name é firstname e lastname, senão acredito que teria sido solicitado um dos 2.
         Pegadinha?
 
-2 -
+2 - Na parte do desafio onde pede:
+        "Criar uma reserva enviando mais parâmetros no payload da reserva"
+        Está criando a reserva sem os novos parâmetros e o status code é 200.
+        Ao meu ver está errado, pois deveria não cadastrar e dar status code 500.
+
+3 - Tendo em vista que para criar uma nova reserva todos os parâmetros do body são required, segundo o schema,
+quando eu tento criar uma reserva sem o parâmetro "additionalneeds" ele cria a reserva. Seria BUG?
+

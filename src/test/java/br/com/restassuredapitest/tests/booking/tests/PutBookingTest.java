@@ -2,31 +2,61 @@ package br.com.restassuredapitest.tests.booking.tests;
 
 import br.com.restassuredapitest.base.BaseTest;
 import br.com.restassuredapitest.suites.AllTests;
+import br.com.restassuredapitest.suites.ContractTests;
 import br.com.restassuredapitest.tests.auth.requests.PostAuthRequest;
 import br.com.restassuredapitest.tests.booking.requests.GetBookingRequest;
 import br.com.restassuredapitest.tests.booking.requests.PutBookingRequest;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import static org.hamcrest.Matchers.greaterThan;
 
+@Feature("Feature - atualização de reservas")
 public class PutBookingTest extends BaseTest{
     PutBookingRequest putBookingRequest = new PutBookingRequest();
     GetBookingRequest getBookingRequest = new GetBookingRequest();
     PostAuthRequest postAuthRequest = new PostAuthRequest();
 
     @Test
-    @Category(AllTests.class)
-    public void validarAlteracaoDeUmaReservaUtilizandoToken(){
+    @Severity(SeverityLevel.NORMAL)
+    @Category({AllTests.class, ContractTests.class})
+    @DisplayName("Alterar uma reserva somente utilizando o token")
+    public void testValidaAlteracaoDeUmaReservaUtilizandoToken(){
+        //lembrando que o primeiro id está na posição [0]
         int primeiroId = getBookingRequest.bookingReturnIds()
                 .then()
                 .statusCode(200)
                 .extract()
-                .path("[0].bookingid");
+                //método extract faz a extração do id que é solicitado abaixo
+                .path("[0].bookingid"); //aqui pega o id na posição "0" como retorno
 
-            putBookingRequest.updateBookingToken(primeiroId, postAuthRequest.getToken())
+        //aqui abaixo eu chamo o método com os 2 parâmetros necessários, id e token
+        putBookingRequest.updateBookingToken(primeiroId, postAuthRequest.getToken())
                     .then()
                     .statusCode(200)
                     .body("size()", greaterThan(0));
+    }
+
+    @Test
+    @Severity(SeverityLevel.NORMAL)
+    @Category({AllTests.class, ContractTests.class})
+    @DisplayName("Alterar uma reserva somente utilizando o Basic auth")
+    public void testValidaAlteracaoDeUmaReservaUtilizandoBasicAuth(){
+        int primeiroId = getBookingRequest.bookingReturnIds()
+                .then()
+                .statusCode(200)
+                .log().all()
+                .extract()
+                .path("[0].bookingid");
+
+        putBookingRequest.updateBookingBasicAuth(primeiroId)
+                .then()
+                .statusCode(200)
+                .log().all()
+                .body("size()", greaterThan(0));
     }
 }

@@ -1,0 +1,6 @@
+1 - Na parte do desafio onde pede:
+        "Listar IDs de reservas utilizando o filtro name, checkin and checkout date"
+        eu levei em consideração que name é firstname e lastname, senão acredito que teria sido solicitado um dos 2.
+        Pegadinha?
+
+2 -

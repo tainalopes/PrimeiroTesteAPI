@@ -1,11 +1,13 @@
 package br.com.restassuredapitest.tests.booking.requests;
 
+import br.com.restassuredapitest.tests.booking.payloads.BookingPayloads;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
 public class GetBookingRequest {
+    BookingPayloads bookingPayloads = new BookingPayloads();
 
     @Step("Retorna os ids da listagem de reservas")
     public Response bookingReturnIds() {

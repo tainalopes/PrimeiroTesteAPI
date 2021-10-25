@@ -29,7 +29,6 @@ public class PostBookingTest extends BaseTest {
                 .statusCode(200)
                 .log().all()
                 .body("booking", notNullValue());
-
     }
 
     @Test

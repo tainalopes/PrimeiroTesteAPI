@@ -24,10 +24,10 @@ public class PutBookingTest extends BaseTest{
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, ContractTests.class})
-    @DisplayName("Alterar uma reserva somente utilizando o token")
-    public void testValidaAlteracaoDeUmaReservaUtilizandoToken(){
+    @DisplayName("Valida a alteração de uma reserva somente utilizando o token")
+    public void testValidatesChangeOfABooKingUsingToken(){
         //lembrando que o primeiro id está na posição [0]
-        int primeiroId = getBookingRequest.bookingReturnIds()
+        int firstId = getBookingRequest.bookingReturnIds()
                 .then()
                 .statusCode(200)
                 .extract()
@@ -35,7 +35,7 @@ public class PutBookingTest extends BaseTest{
                 .path("[0].bookingid"); //aqui pega o id na posição "0" como retorno
 
         //aqui abaixo eu chamo o método com os 2 parâmetros necessários, id e token
-        putBookingRequest.updateBookingToken(primeiroId, postAuthRequest.getToken())
+        putBookingRequest.updateBookingToken(firstId, postAuthRequest.getToken())
                     .then()
                     .statusCode(200)
                     .body("size()", greaterThan(0));
@@ -44,16 +44,16 @@ public class PutBookingTest extends BaseTest{
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, ContractTests.class})
-    @DisplayName("Alterar uma reserva somente utilizando o Basic auth")
-    public void testValidaAlteracaoDeUmaReservaUtilizandoBasicAuth(){
-        int primeiroId = getBookingRequest.bookingReturnIds()
+    @DisplayName("Valida a alteração de uma reserva somente utilizando o Basic auth")
+    public void testValidatesChangeOfABooKingUsingBasicAuth(){
+        int firstId = getBookingRequest.bookingReturnIds()
                 .then()
                 .statusCode(200)
                 .log().all()
                 .extract()
                 .path("[0].bookingid");
 
-        putBookingRequest.updateBookingBasicAuth(primeiroId)
+        putBookingRequest.updateBookingBasicAuth(firstId)
                 .then()
                 .statusCode(200)
                 .log().all()

@@ -8,7 +8,6 @@ import static io.restassured.RestAssured.given;
 
 public class PostAuthRequest {
     AuthPayloads authPayloads = new AuthPayloads();
-    //NÃO ESQUECER DE CHAMAR AS CLASSES PARA TER ACESSO AOS MÉTODOS
 
     @Step("Retorna o token")
     public Response tokenReturn(){

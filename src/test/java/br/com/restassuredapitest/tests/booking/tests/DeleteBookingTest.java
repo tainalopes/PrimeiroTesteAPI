@@ -19,55 +19,49 @@ public class DeleteBookingTest extends BaseTest {
     DeleteBookingRequest deleteBookingRequest = new DeleteBookingRequest();
 
     @Test
-    @DisplayName("Deletar uma reserva")
+    @DisplayName("Deletar uma reserva utilizando token")
     @Category({AllTests.class, AcceptanceTests.class})
-    public void testDeletaUmaReservaUtilizandoToken(){
-        int primeiroId = getBookingRequest.bookingReturnIds()
+    public void testDeleteABookingWithToken(){
+        int firstId = getBookingRequest.bookingReturnIds()
                 .then()
                 .log().all()
                 .statusCode(200)
                 .extract()
                 .path("[0].bookingid");
 
-        deleteBookingRequest.deleteBooking(primeiroId, postAuthRequest.getToken())
+        deleteBookingRequest.deleteBooking(firstId, postAuthRequest.getToken())
                 .then()
                 .statusCode(201)
                 .log().all();
     }
 
-
+//--------------------------------------------------------------------------------------------------------------
     //COMO EU VOU TENTAR EXCLUIR UMA RESERVA QUE NÃO EXISTE SE EU NÃO CONSIGO SELECIONAR UMA PARA EXCLUIR?
-
-//    @Test
-//    @DisplayName("Deletar uma reserva que não existe")
-//    @Category({AllTests.class, EndToEndTests.class})
-//    public void testDeleteABookingThatDoesntExist(){
-//        int invalidId = getBookingRequest.bookingReturnIds()
-//                .then()
-//                .log().all()
-//                .statusCode(200)
-//                .extract()
-//                .path("[999].bookingid");
-//
-//        deleteBookingRequest.deleteBooking(invalidId, postAuthRequest.getToken())
-//                .then()
-//                .statusCode(405)
-//                .log().all();
-//
-//    }
+    //eu declarando a posição 999 está certo?? sem chamar o método de retornar id?
 
     @Test
-    @DisplayName("Deletar uma reserva sem autorização")
+    @DisplayName("Deletar uma reserva que não existe")
     @Category({AllTests.class, EndToEndTests.class})
-    public void testDeletaABookingWithNoToken(){
-        int primeiroId = getBookingRequest.bookingReturnIds()
+    public void testDeleteABookingThatDoesntExist(){
+
+        deleteBookingRequest.deleteBooking(999, postAuthRequest.getToken())
+                .then()
+                .statusCode(405)
+                .log().all();
+    }
+//--------------------------------------------------------------------------------------------------------------
+    @Test
+    @DisplayName("Deletar uma reserva sem autorização(token)")
+    @Category({AllTests.class, EndToEndTests.class})
+    public void testDeleteABookingWithoutAToken(){
+        int firstId = getBookingRequest.bookingReturnIds()
                 .then()
                 .log().all()
                 .statusCode(200)
                 .extract()
                 .path("[0].bookingid");
 
-        deleteBookingRequest.deleteBooking(primeiroId, "")
+        deleteBookingRequest.deleteBooking(firstId, "")
                 .then()
                 .statusCode(403)
                 .log().all();

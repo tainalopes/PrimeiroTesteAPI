@@ -57,4 +57,12 @@ public class BookingPayloads{
 
         return payload;
     }
+
+    public JSONObject payloadWithBadFormatting(){
+        JSONObject payload = new JSONObject();
+
+        payload.put("firstname", "NeMo");
+
+        return payload;
+    }
 }

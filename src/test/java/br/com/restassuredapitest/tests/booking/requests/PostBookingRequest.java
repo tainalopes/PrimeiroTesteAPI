@@ -30,11 +30,11 @@ public class PostBookingRequest {
     }
 
     @Step("Criar uma reserva com payload incorreto")
-    public Response createInvalidBooking() {
+    public Response createANewBookingWithInvalidParameters() {
         return given()
                 .header("Content-Type", "application/json")
                 .when()
-                .body(BookingPayloads.payloadCreateInvalidBooking().toString())
+                .body(BookingPayloads.payloadCreateInvalidParameters().toString())
                 .post("booking/");
     }
 }

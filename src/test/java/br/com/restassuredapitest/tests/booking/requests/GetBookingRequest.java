@@ -11,7 +11,7 @@ public class GetBookingRequest {
     public Response bookingReturnIds() {
         return given()
                 .when()
-                .get("booking"); //a url inicial está em "BaseTest", aqui vai somente o resto do caminho
+                .get("booking");
     }
 
     @Step("Retorna a primeira reserva cadastrada")

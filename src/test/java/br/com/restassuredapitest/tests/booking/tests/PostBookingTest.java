@@ -38,7 +38,7 @@ public class PostBookingTest extends BaseTest {
     @DisplayName("Tentar criar uma reserva com payload inválido")
     public void testCreateANewBookingWithInvalidPayLoad() {
 
-        postBookingRequest.createInvalidBooking()
+        postBookingRequest.createANewBookingWithInvalidParameters()
                 .then()
                 .statusCode(500)
                 .log().all();

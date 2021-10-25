@@ -40,7 +40,7 @@ public class BookingPayloads{
         return payload;
     }
 
-    public static JSONObject payloadCreateInvalidBooking() {
+    public static JSONObject payloadCreateInvalidParameters() {
         JSONObject payload = new JSONObject();
         JSONObject bookingDates = new JSONObject();
 
@@ -53,7 +53,7 @@ public class BookingPayloads{
         payload.put("totalprice", "String hehehe");
         payload.put("depositpaid", true);
         payload.put("bookingdates", bookingDates);
-        payload.put("additionalneeds", "token");
+        payload.put("additionalneeds", 12.5);
 
         return payload;
     }

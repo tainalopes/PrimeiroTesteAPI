@@ -4,6 +4,7 @@ import br.com.restassuredapitest.base.BaseTest;
 import br.com.restassuredapitest.suites.AcceptanceTests;
 import br.com.restassuredapitest.suites.AllTests;
 import br.com.restassuredapitest.suites.EndToEndTests;
+import br.com.restassuredapitest.tests.booking.payloads.BookingPayloads;
 import br.com.restassuredapitest.tests.booking.requests.PostBookingRequest;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -11,9 +12,13 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import java.util.concurrent.TimeUnit;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
 
 @Feature("Feature - criação de reservas")
 public class PostBookingTest extends BaseTest {
@@ -27,20 +32,19 @@ public class PostBookingTest extends BaseTest {
         postBookingRequest.createANewBooking()
                 .then()
                 .statusCode(200)
-                .log().all()
                 .body("booking", notNullValue());
     }
-
+ //AJUSTAR NOMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, EndToEndTests.class})
-    @DisplayName("Tentar criar uma reserva com payload inválido")
+    @DisplayName("Validar retorno 500 quando o payload da reserva estiver inválido")
     public void testCreateANewBookingWithInvalidPayLoad() {
 
         postBookingRequest.createANewBookingWithInvalidParameters()
                 .then()
                 .statusCode(500)
-                .log().all();
+                .time(lessThan(2L), TimeUnit.SECONDS);
     }
 
     @Test
@@ -69,7 +73,20 @@ public class PostBookingTest extends BaseTest {
 
         postBookingRequest.createANewBookingWithMoreParameters()
                 .then()
-                .log().all()
-                .statusCode(200); //ERRADO, ATENÇÃO!!!!!!!!!!!!!!
+                .statusCode(200)
+                .body("size()", greaterThan(0));
+    }
+
+    @Test
+    @Severity(SeverityLevel.NORMAL)
+    @Category({AllTests.class, EndToEndTests.class})
+    @DisplayName("Criar uma reserva com Header Accept Inválido")
+    public void testCreateABookingWithInvalidAccept() {
+
+        postBookingRequest.createABookingWithInvalidAccept(
+                BookingPayloads.payloadValidBooking())
+                .then()
+                .statusCode(418)
+                .time(lessThan(2L), TimeUnit.SECONDS);
     }
 }

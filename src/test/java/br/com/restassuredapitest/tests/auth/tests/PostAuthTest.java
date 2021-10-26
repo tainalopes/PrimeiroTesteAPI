@@ -10,22 +10,21 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 @Feature("Feature - autenticação de usuário")
 public class PostAuthTest extends BaseTest {
 
-    PostAuthRequest postAuthRequest = new PostAuthRequest(); //instanciando a classe para poder chamar no teste.
+    PostAuthRequest postAuthRequest = new PostAuthRequest();
 
     @Test
     @Severity(SeverityLevel.BLOCKER)
     @Category({AllTests.class, SmokeTests.class})
     @DisplayName("Retorna o token para o usuário")
     public void testValidateTokenReturnForUser(){
-        postAuthRequest.tokenReturn() //chamando o método de retorno do token
+        postAuthRequest.tokenReturn()
                 .then()
                 .statusCode(200)
-                .body("token", notNullValue()); //fazendo a validação que esse token não pode ser nulo
+                .body("token", notNullValue());
     }
 }

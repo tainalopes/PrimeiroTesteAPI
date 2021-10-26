@@ -7,9 +7,9 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
 public class GetBookingRequest {
-    BookingPayloads bookingPayloads = new BookingPayloads();
+    //BokingPayloads bookingPayloads = new BookingPayloads();
 
-    @Step("Retorna os ids da listagem de reservas")
+    @Step("Retorna todos os ids da listagem de reservas")
     public Response bookingReturnIds() {
         return given()
                 .when()
@@ -25,6 +25,7 @@ public class GetBookingRequest {
                 .get("booking/" + primeiroId);
     }
 
+    @Step("Busca a primeira posição do array de reserva")
     public int returnFirtsId() {
         return bookingReturnIds()
                 .then()
@@ -33,20 +34,20 @@ public class GetBookingRequest {
                 .path("[0].bookingid");
     }
 
-    @Step("Retorna um id que não existe")
-    public Response bookingDontExist(){
-        int idDontExist = returnIdDontExist();
-        return given()
-                .when()
-                .get("booking/" + idDontExist);
-    }
-    public int returnIdDontExist(){
-        return bookingDontExist()
-                .then()
-                .statusCode(405)
-                .extract()
-                .path("[666].bookingid");
-    }
+//    @Step("Retorna um id que não existe")
+//    public Response bookingDontExist(){
+//        int idDontExist = returnIdDontExist();
+//        return given()
+//                .when()
+//                .get("booking/" + idDontExist);
+//    }
+//    public int returnIdDontExist(){
+//        return bookingDontExist()
+//                .then()
+//                .statusCode(405)
+//                .extract()
+//                .path("[666].bookingid");
+//    }
 
     @Step("Retorna lista de ids com filtros")
     public Response bookingReturnIdsByFilter(String filter1, String filterValue1,

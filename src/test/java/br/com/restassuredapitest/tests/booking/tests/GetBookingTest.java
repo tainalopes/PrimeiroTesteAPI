@@ -34,6 +34,18 @@ public class GetBookingTest extends BaseTest {
 
     @Test
     @Severity(SeverityLevel.BLOCKER)
+    @Category({AllTests.class, ContractTests.class})
+    @DisplayName("Garantir o schema do retorno de uma reserva específica")
+    public void testValidateReturnOfASpecificBookingSchema(){
+        getBookingRequest.bookingReturnFirstId()
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchema(new File(Utils.getSchemaBasePath("booking", "booking"))));
+
+    }
+
+    @Test
+    @Severity(SeverityLevel.BLOCKER)
     @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Listar ids das reservas")
     public void testListTheIdsOfBookings(){

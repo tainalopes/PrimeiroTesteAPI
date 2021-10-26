@@ -1,13 +1,10 @@
 package br.com.restassuredapitest.tests.booking.requests;
 
-import br.com.restassuredapitest.tests.booking.payloads.BookingPayloads;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-
 import static io.restassured.RestAssured.given;
 
 public class GetBookingRequest {
-    //BokingPayloads bookingPayloads = new BookingPayloads();
 
     @Step("Retorna todos os ids da listagem de reservas")
     public Response bookingReturnIds() {
@@ -16,7 +13,7 @@ public class GetBookingRequest {
                 .get("booking");
     }
 
-    @Step("Retorna a primeira reserva cadastrada")
+    @Step("Retorna a reserva cadastrada na primeira posição do array")
     public Response bookingReturnFirstId() {
         int primeiroId = returnFirtsId();
 
@@ -33,21 +30,6 @@ public class GetBookingRequest {
                 .extract()
                 .path("[0].bookingid");
     }
-
-//    @Step("Retorna um id que não existe")
-//    public Response bookingDontExist(){
-//        int idDontExist = returnIdDontExist();
-//        return given()
-//                .when()
-//                .get("booking/" + idDontExist);
-//    }
-//    public int returnIdDontExist(){
-//        return bookingDontExist()
-//                .then()
-//                .statusCode(405)
-//                .extract()
-//                .path("[666].bookingid");
-//    }
 
     @Step("Retorna lista de ids com filtros")
     public Response bookingReturnIdsByFilter(String filter1, String filterValue1,

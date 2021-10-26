@@ -3,7 +3,7 @@ package br.com.restassuredapitest.tests.booking.payloads;
 import org.json.JSONObject;
 
 public class BookingPayloads{
-    public static JSONObject payloadValidBooking(){
+    public JSONObject payloadValidBooking(){
         JSONObject payload = new JSONObject();
         JSONObject bookingDates = new JSONObject();
 

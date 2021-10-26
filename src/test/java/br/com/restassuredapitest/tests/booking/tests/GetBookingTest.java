@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import java.io.File;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.greaterThan;
 
 @Feature("Feature - retorno de reservas")
@@ -62,7 +63,7 @@ public class GetBookingTest extends BaseTest {
     @DisplayName("Listar uma reserva específica (array na posição 42)")
     public void testListTheReturnOfASpecificBooking() {
 
-        getBookingRequest.bookingReturnIds()
+        getBookingRequest.bookingReturnFirstId()
                 .then()
                 .statusCode(200)
                 .extract()
@@ -76,13 +77,9 @@ public class GetBookingTest extends BaseTest {
     public void testListTheIdsOfBookingsByFirstname() {
 
         Response booking = getBookingRequest.bookingReturnFirstId();
-
         String firstname = booking.then().extract().path("firstname");
 
-        getBookingRequest.bookingReturnIdsByFilter("firstname", firstname,
-                        "", "",
-                        "", "",
-                        "", "")
+        getBookingRequest.bookingReturnIdsByFilter("firstname", firstname)
                 .then()
                 .statusCode(200)
                 .body("size()", greaterThan(0));
@@ -97,10 +94,7 @@ public class GetBookingTest extends BaseTest {
         Response booking = getBookingRequest.bookingReturnFirstId();
         String lastname = booking.then().extract().path("lastname");
 
-        getBookingRequest.bookingReturnIdsByFilter("lastname", lastname,
-                        "", "",
-                        "", "",
-                        "", "")
+        getBookingRequest.bookingReturnIdsByFilter("lastname", lastname)
                 .then()
                 .statusCode(200)
                 .body("size()", greaterThan(0));
@@ -113,13 +107,9 @@ public class GetBookingTest extends BaseTest {
     public void testListTheIdsOfBookingsByCheckin() {
 
         Response booking = getBookingRequest.bookingReturnFirstId();
-
         String checkin = booking.then().extract().path("bookingdates.checkin");
 
-        getBookingRequest.bookingReturnIdsByFilter("bookingdates.checkin", checkin,
-                        "", "",
-                        "", "",
-                        "", "")
+        getBookingRequest.bookingReturnIdsByFilter("checkin", checkin)
                 .then()
                 .statusCode(200)
                 .body("size()", greaterThan(0));
@@ -132,16 +122,12 @@ public class GetBookingTest extends BaseTest {
     public void testListTheIdsOfBookingsByCheckout() {
 
         Response booking = getBookingRequest.bookingReturnFirstId();
-
         String checkout = booking.then().extract().path("bookingdates.checkout");
 
-        getBookingRequest.bookingReturnIdsByFilter("bookingdates.checkout", checkout,
-                        "", "",
-                        "", "",
-                        "", "")
+        System.out.println(getBookingRequest.bookingReturnIdsByFilter("checkout", checkout)
                 .then()
                 .statusCode(200)
-                .body("size()", greaterThan(0));
+                .body("size()", greaterThan(0)));
     }
 
     @Test
@@ -154,6 +140,7 @@ public class GetBookingTest extends BaseTest {
                 .statusCode(500);
     }
 
+    //--------------------------------------------------------------------------------------------------
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, AcceptanceTests.class})
@@ -161,20 +148,18 @@ public class GetBookingTest extends BaseTest {
     public void testListTheIdsOfBookingsByNameAndCheckinAndCheckout() {
 
         Response booking = getBookingRequest.bookingReturnFirstId();
-
-        String firstname = booking.then().extract().path("firstname"); //aqui armazena o nome do primeiro id
+        String firstname = booking.then().extract().path("firstname");
         String lastname = booking.then().extract().path("lastname");
         String checkin = booking.then().extract().path("bookingdates.checkin");
         String checkout = booking.then().extract().path("bookingdates.checkout");
 
-        getBookingRequest.bookingReturnIdsByFilter("firstname", firstname,
-                        "lastname", lastname,
-                        "checkin",
-                        checkin, "checkout", checkout)
-                .then()
+        System.out.println(getBookingRequest.bookingReturnIdsByFilter("firstname", firstname, "lastname", lastname,
+                        "checkin", checkin, "checkout", checkout)
+                .then().log().all()
                 .statusCode(200)
-                .body("size()", greaterThan(0));
+                .body("booking", notNullValue()));
     }
+    //--------------------------------------------------------------------------------------------------
 
     @Test
     @Severity(SeverityLevel.NORMAL)
@@ -182,10 +167,7 @@ public class GetBookingTest extends BaseTest {
     @DisplayName("Visualizar erro de servidor 500 quando enviar filtro mal formatado")
     public void testReturnErrorWithABadFilter() {
 
-        getBookingRequest.bookingReturnFirstId();
-
-        getBookingRequest.bookingReturnIdsByFilter("checkin", "26-10-2021",
-                        "", "", "", "", "", "")
+        getBookingRequest.bookingReturnIdsByFilter("checkin","26-10-2021")
                 .then()
                 .statusCode(500);
     }

@@ -11,9 +11,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-
 import java.util.concurrent.TimeUnit;
-
 import static org.hamcrest.Matchers.lessThan;
 
 @Feature("Feature - exclusão de reservas")
@@ -26,13 +24,12 @@ public class DeleteBookingTest extends BaseTest {
     @DisplayName("Deletar uma reserva utilizando token")
     @Category({AllTests.class, AcceptanceTests.class})
     public void testDeleteABookingWithToken(){
+
         int firstId = getBookingRequest.bookingReturnIds()
                 .then()
-                .log().all()
                 .statusCode(200)
                 .extract()
                 .path("[0].bookingid");
-
 
         deleteBookingRequest.deleteBooking(firstId, postAuthRequest.getToken())
                 .then()
@@ -55,6 +52,7 @@ public class DeleteBookingTest extends BaseTest {
     @DisplayName("Deletar uma reserva sem autorização(token)")
     @Category({AllTests.class, EndToEndTests.class})
     public void testDeleteABookingWithoutAToken(){
+
         int firstId = getBookingRequest.bookingReturnIds()
                 .then()
                 .statusCode(200)

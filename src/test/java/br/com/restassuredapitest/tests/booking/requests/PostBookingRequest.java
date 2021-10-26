@@ -4,7 +4,6 @@ import br.com.restassuredapitest.tests.booking.payloads.BookingPayloads;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.json.JSONObject;
-
 import static io.restassured.RestAssured.given;
 
 public class PostBookingRequest {
@@ -15,7 +14,6 @@ public class PostBookingRequest {
         return given()
                 .header("Content-Type", "application/json")
                 .when()
-                .log().all()
                 .body(bookingPayloads.payloadValidBooking().toString())
                 .post("booking");
     }
@@ -25,7 +23,6 @@ public class PostBookingRequest {
         return given()
                 .header("Content-Type", "application/json")
                 .when()
-                .log().all()
                 .body(bookingPayloads.payloadWithMoreParameters().toString())
                 .post("booking");
     }

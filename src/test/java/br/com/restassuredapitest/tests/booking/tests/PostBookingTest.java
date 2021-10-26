@@ -13,9 +13,7 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-
 import java.util.concurrent.TimeUnit;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.greaterThan;
@@ -24,6 +22,7 @@ import static org.hamcrest.Matchers.lessThan;
 @Feature("Feature - criação de reservas")
 public class PostBookingTest extends BaseTest {
     PostBookingRequest postBookingRequest = new PostBookingRequest();
+    BookingPayloads bookingPayloads = new BookingPayloads();
 
     @Test
     @Severity(SeverityLevel.BLOCKER)
@@ -60,7 +59,6 @@ public class PostBookingTest extends BaseTest {
                     .when()
                     .then()
                     .statusCode(200)
-                    .log().all()
                     .body("size()", greaterThan(0));
             i++;
         }
@@ -87,7 +85,7 @@ public class PostBookingTest extends BaseTest {
     public void testCreateABookingWithInvalidAccept() {
 
         postBookingRequest.createABookingWithInvalidAccept(
-                BookingPayloads.payloadValidBooking())
+                bookingPayloads.payloadValidBooking())
                 .then()
                 .statusCode(418)
                 .time(lessThan(2L), TimeUnit.SECONDS);

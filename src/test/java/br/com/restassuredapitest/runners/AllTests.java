@@ -23,5 +23,6 @@ import org.junit.runners.Suite;
         PostBookingTest.class,
         DeleteBookingTest.class
 })
+
 public class AllTests {
 }

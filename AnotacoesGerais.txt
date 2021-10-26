@@ -2,4 +2,14 @@
 1 - Tendo em vista que para criar uma nova reserva todos os parâmetros do body são required, segundo o schema,
 quando eu tento criar uma reserva sem o parâmetro "additionalneeds" ele cria a reserva. Seria BUG?
 
-2 -git add .
+************************************************************************************
+******************************************FAZER*************************************
+
+Suite Schema:
+/GET
+Garantir o schema do retorno de uma reserva específica
+Suite Acceptance:
+
+Suite E2e:
+/GET
+Visualizar erro de servidor 500 quando enviar filtro mal formatado

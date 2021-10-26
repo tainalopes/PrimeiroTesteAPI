@@ -11,6 +11,6 @@ public class GetPingRequest {
         return given()
                 .header("Content-Type", "application/json")
                 .when()
-                .get("ping"); //a url inicial está em "BaseTest", aqui vai csomente o resto do caminho
+                .get("ping");
     }
 }

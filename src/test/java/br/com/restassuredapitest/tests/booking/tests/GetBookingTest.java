@@ -135,21 +135,21 @@ public class GetBookingTest extends BaseTest {
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, AcceptanceTests.class})
-    @DisplayName("Listar ids de reservas utilizando o filtro 'checkin' e 'checkout'")
+    @DisplayName("Listar ids de reservas utilizando o filtro 'checkout' duas vezes")
     public void testListTheIdsOfBookingsByCheckinAndCheckout() {
 
         Response booking = getBookingRequest.bookingReturnFirstId();
 
-        String checkin = booking.then().extract().path("bookingdates.checkin");
         String checkout = booking.then().extract().path("bookingdates.checkout");
 
-        getBookingRequest.bookingReturnIdsByFilter("bookingdates.checkin", checkin,
+        getBookingRequest.bookingReturnIdsByFilter("bookingdates.checkout", checkout,
                         "bookingdates.checkout", checkout,
                         "", "",
                         "", "")
                 .then()
                 .statusCode(200)
                 .body("size()", greaterThan(0));
+        System.out.println(checkout);
     }
 
     @Test

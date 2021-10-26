@@ -4,7 +4,6 @@ import br.com.restassuredapitest.base.BaseTest;
 import br.com.restassuredapitest.suites.AcceptanceTests;
 import br.com.restassuredapitest.suites.AllTests;
 import br.com.restassuredapitest.suites.ContractTests;
-import br.com.restassuredapitest.suites.EndToEndTests;
 import br.com.restassuredapitest.tests.booking.requests.GetBookingRequest;
 import br.com.restassuredapitest.utils.Utils;
 import io.qameta.allure.Feature;
@@ -30,7 +29,6 @@ public class GetBookingTest extends BaseTest {
         getBookingRequest.bookingReturnIds()
                 .then()
                 .statusCode(200)
-                .log().all()
                 .body(matchesJsonSchema(new File(Utils.getSchemaBasePath("booking", "bookings"))));
     }
 
@@ -38,27 +36,25 @@ public class GetBookingTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Listar ids das reservas")
-    public void testListtheIdsOfBookings(){
+    public void testListTheIdsOfBookings(){
 
-        getBookingRequest.bookingReturnIds() //essa a é resposta da request feita em getBookingRequest
+        getBookingRequest.bookingReturnIds()
                 .then()
-                .statusCode(200) //esse é o status que deve retornar conforme a documentação
-                .log().all()
+                .statusCode(200)
                 .body("size()", greaterThan(0));
-        //a listagem deve ser maior que zero
-        //validando que está retornando valores na listagem, pelo menos um
     }
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @Category({AllTests.class, AcceptanceTests.class})
-    @DisplayName("Listar uma reserva específica")
+    @DisplayName("Listar uma reserva específica (array na posição 42)")
     public void testListTheReturnOfASpecificBooking() {
 
-        getBookingRequest.bookingReturnFirstId()
+        getBookingRequest.bookingReturnIds()
                 .then()
-                .log().all()
-                .statusCode(200);
+                .statusCode(200)
+                .extract()
+                .path("[42].bookingid");
     }
 
     @Test
@@ -77,7 +73,6 @@ public class GetBookingTest extends BaseTest {
                         "", "")
                 .then()
                 .statusCode(200)
-                .log().all()
                 .body("size()", greaterThan(0));
     }
 
@@ -88,7 +83,6 @@ public class GetBookingTest extends BaseTest {
     public void testListTheIdsOfBookingsByLastname() {
 
         Response booking = getBookingRequest.bookingReturnFirstId();
-
         String lastname = booking.then().extract().path("lastname");
 
         getBookingRequest.bookingReturnIdsByFilter("lastname", lastname,
@@ -97,7 +91,6 @@ public class GetBookingTest extends BaseTest {
                         "", "")
                 .then()
                 .statusCode(200)
-                .log().all()
                 .body("size()", greaterThan(0));
     }
 
@@ -117,7 +110,6 @@ public class GetBookingTest extends BaseTest {
                         "", "")
                 .then()
                 .statusCode(200)
-                .log().all()
                 .body("size()", greaterThan(0));
     }
 
@@ -137,7 +129,6 @@ public class GetBookingTest extends BaseTest {
                         "", "")
                 .then()
                 .statusCode(200)
-                .log().all()
                 .body("size()", greaterThan(0));
     }
 
@@ -158,7 +149,6 @@ public class GetBookingTest extends BaseTest {
                         "", "")
                 .then()
                 .statusCode(200)
-                .log().all()
                 .body("size()", greaterThan(0));
     }
 
@@ -181,15 +171,6 @@ public class GetBookingTest extends BaseTest {
                         checkin, "bookingdates.checkout", checkout)
                 .then()
                 .statusCode(200)
-                .log().all()
                 .body("size()", greaterThan(0));
-    }
-
-    @Test
-    @Severity(SeverityLevel.NORMAL)
-    @Category({AllTests.class, EndToEndTests.class})
-    @DisplayName("Visualizar o erro 500 quando enviar um filtro mal formatado")
-    public void testSee500ErrorWhenSendingPoorlyFormattedFilter() {
-
     }
 }

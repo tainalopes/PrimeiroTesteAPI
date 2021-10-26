@@ -4,6 +4,7 @@ import br.com.restassuredapitest.base.BaseTest;
 import br.com.restassuredapitest.suites.AcceptanceTests;
 import br.com.restassuredapitest.suites.AllTests;
 import br.com.restassuredapitest.suites.ContractTests;
+import br.com.restassuredapitest.suites.EndToEndTests;
 import br.com.restassuredapitest.tests.booking.requests.GetBookingRequest;
 import br.com.restassuredapitest.utils.Utils;
 import io.qameta.allure.Feature;
@@ -41,7 +42,6 @@ public class GetBookingTest extends BaseTest {
                 .then()
                 .statusCode(200)
                 .body(matchesJsonSchema(new File(Utils.getSchemaBasePath("booking", "booking"))));
-
     }
 
     @Test
@@ -149,19 +149,9 @@ public class GetBookingTest extends BaseTest {
     @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Listar ids de reservas utilizando o filtro 'checkout' duas vezes")
     public void testListTheIdsOfBookingsByCheckinAndCheckout() {
-
-        Response booking = getBookingRequest.bookingReturnFirstId();
-
-        String checkout = booking.then().extract().path("bookingdates.checkout");
-
-        getBookingRequest.bookingReturnIdsByFilter("bookingdates.checkout", checkout,
-                        "bookingdates.checkout", checkout,
-                        "", "",
-                        "", "")
+        getBookingRequest.bookingReturnIdsByFilterWithDoubleCheckouts()
                 .then()
-                .statusCode(200)
-                .body("size()", greaterThan(0));
-        System.out.println(checkout);
+                .statusCode(500);
     }
 
     @Test
@@ -172,17 +162,31 @@ public class GetBookingTest extends BaseTest {
 
         Response booking = getBookingRequest.bookingReturnFirstId();
 
-        String firstname = booking.then().extract().path("firstname");
+        String firstname = booking.then().extract().path("firstname"); //aqui armazena o nome do primeiro id
         String lastname = booking.then().extract().path("lastname");
         String checkin = booking.then().extract().path("bookingdates.checkin");
         String checkout = booking.then().extract().path("bookingdates.checkout");
 
         getBookingRequest.bookingReturnIdsByFilter("firstname", firstname,
                         "lastname", lastname,
-                        "bookingdates.checkin",
-                        checkin, "bookingdates.checkout", checkout)
+                        "checkin",
+                        checkin, "checkout", checkout)
                 .then()
                 .statusCode(200)
                 .body("size()", greaterThan(0));
+    }
+
+    @Test
+    @Severity(SeverityLevel.NORMAL)
+    @Category({AllTests.class, EndToEndTests.class})
+    @DisplayName("Visualizar erro de servidor 500 quando enviar filtro mal formatado")
+    public void testReturnErrorWithABadFilter() {
+
+        getBookingRequest.bookingReturnFirstId();
+
+        getBookingRequest.bookingReturnIdsByFilter("checkin", "26-10-2021",
+                        "", "", "", "", "", "")
+                .then()
+                .statusCode(500);
     }
 }

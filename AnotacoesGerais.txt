@@ -1,18 +1,15 @@
+Anotações gerais:
 
-1 - Tendo em vista que para criar uma nova reserva todos os parâmetros do body são required, segundo o schema,
-quando eu tento criar uma reserva sem o parâmetro "additionalneeds" ele cria a reserva. Seria BUG?
+1 - Tendo em vista que para criar uma nova reserva todos os parâmetros do body são 'required', segundo o schema,
+quando eu crio uma reserva sem o parâmetro "additionalneeds", a reserva é realizada com sucesso, quando acredito que
+deveria retornar status code 400 - bad request.
 
-2 - Na pesquisa de checkou e checkout, o teste passa com status code 200, mas ao meu ver deveria ser código 500,
-como acontece no Postman.
+2 - Quando faço a exclução de uma reserva, o retorno recebido é 201 - created, acredito que o correto deva ser 200 - ok
+ou então um 202 - accepted.
 
-************************************************************************************
-******************************************FAZER*************************************
+Testes ignorados no projeto:
+1 - Quando faço a alteração
 
-Suite Schema:
-/GET
-Garantir o schema do retorno de uma reserva específica
-Suite Acceptance:
 
-Suite E2e:
-/GET
-Visualizar erro de servidor 500 quando enviar filtro mal formatado
+
+

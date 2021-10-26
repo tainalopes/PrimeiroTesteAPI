@@ -7,7 +7,7 @@ public class BookingPayloads{
         JSONObject payload = new JSONObject();
         JSONObject bookingDates = new JSONObject();
 
-        bookingDates.put("checkin","2018-07-04");
+        bookingDates.put("checkin","2010-10-20");
         bookingDates.put("checkout", "2018-11-02");
 
         payload.put("firstname", "Nemo");
@@ -54,14 +54,6 @@ public class BookingPayloads{
         payload.put("depositpaid", true);
         payload.put("bookingdates", bookingDates);
         payload.put("additionalneeds", 12.5);
-
-        return payload;
-    }
-
-    public JSONObject payloadWithBadFormatting(){
-        JSONObject payload = new JSONObject();
-
-        payload.put("firstname", "NeMo");
 
         return payload;
     }

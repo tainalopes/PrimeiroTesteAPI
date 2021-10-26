@@ -10,6 +10,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -34,12 +35,12 @@ public class PostBookingTest extends BaseTest {
                 .statusCode(200)
                 .body("booking", notNullValue());
     }
- //AJUSTAR NOMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, EndToEndTests.class})
     @DisplayName("Validar retorno 500 quando o payload da reserva estiver inválido")
-    public void testCreateANewBookingWithInvalidPayLoad() {
+    public void testValidateErrorwhenInvalidPayLoad() {
 
         postBookingRequest.createANewBookingWithInvalidParameters()
                 .then()
@@ -66,6 +67,8 @@ public class PostBookingTest extends BaseTest {
     }
 
     @Test
+    @Ignore("O teste não está executando pois tem o seguinte defeito: a reserva é criada, porém sem os parâmetros extras." +
+            "O correto seria não ser criada e retornar erro 400 - bad request.")
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, EndToEndTests.class})
     @DisplayName("Criar uma reserva enviando mais parâmetros no payload da reserva")
@@ -73,7 +76,7 @@ public class PostBookingTest extends BaseTest {
 
         postBookingRequest.createANewBookingWithMoreParameters()
                 .then()
-                .statusCode(200)
+                .statusCode(400)
                 .body("size()", greaterThan(0));
     }
 

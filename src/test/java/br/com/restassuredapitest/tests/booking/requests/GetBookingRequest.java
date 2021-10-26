@@ -45,4 +45,26 @@ public class GetBookingRequest {
                 .when()
                 .get("booking");
     }
+
+    @Step("Retorna lista de ids com filtros")
+    public Response bookingReturnIdsByFilter(String filter1, String filterValue1,
+                                             String filter2, String filterValue2)
+    {
+        return given()
+                .queryParams(filter1, filterValue1,
+                        filter2, filterValue2)
+                .when()
+                .get("booking");
+    }
+
+
+
+
+
+    @Step("Retorna lista de ids com filtro de checkout 2x")
+    public Response bookingReturnIdsByFilterWithDoubleCheckouts(){
+        return given().log().all()
+                .when()
+                .get("booking?checkout=2014-05-21&checkout=2014-05-21");
+    }
 }

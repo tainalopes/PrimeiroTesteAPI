@@ -33,6 +33,7 @@ public class DeleteBookingTest extends BaseTest {
                 .extract()
                 .path("[0].bookingid");
 
+
         deleteBookingRequest.deleteBooking(firstId, postAuthRequest.getToken())
                 .then()
                 .statusCode(201)

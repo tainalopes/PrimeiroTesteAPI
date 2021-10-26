@@ -1,5 +1,6 @@
 package br.com.restassuredapitest.runners;
 
+import br.com.restassuredapitest.tests.booking.tests.DeleteBookingTest;
 import org.junit.experimental.categories.Categories;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -8,6 +9,7 @@ import org.junit.runners.Suite;
 @Categories.IncludeCategory(br.com.restassuredapitest.suites.AcceptanceTests.class)
 @Suite.SuiteClasses({
 
+        DeleteBookingTest.class
 
 })
 

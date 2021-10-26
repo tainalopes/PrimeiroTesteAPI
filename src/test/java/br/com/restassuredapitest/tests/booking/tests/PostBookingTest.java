@@ -4,6 +4,7 @@ import br.com.restassuredapitest.base.BaseTest;
 import br.com.restassuredapitest.suites.AcceptanceTests;
 import br.com.restassuredapitest.suites.AllTests;
 import br.com.restassuredapitest.suites.EndToEndTests;
+import br.com.restassuredapitest.suites.SecurityTests;
 import br.com.restassuredapitest.tests.booking.payloads.BookingPayloads;
 import br.com.restassuredapitest.tests.booking.requests.PostBookingRequest;
 import io.qameta.allure.Feature;
@@ -21,14 +22,16 @@ import static org.hamcrest.Matchers.lessThan;
 
 @Feature("Feature - criação de reservas")
 public class PostBookingTest extends BaseTest {
+
     PostBookingRequest postBookingRequest = new PostBookingRequest();
     BookingPayloads bookingPayloads = new BookingPayloads();
 
     @Test
     @Severity(SeverityLevel.BLOCKER)
     @Category({AllTests.class, AcceptanceTests.class})
-    @DisplayName("Cria uma nova reserva")
+    @DisplayName("Criar uma nova reserva")
     public void testCreateANewBooking(){
+
         postBookingRequest.createANewBooking()
                 .then()
                 .statusCode(200)
@@ -42,7 +45,7 @@ public class PostBookingTest extends BaseTest {
     public void testValidateErrorwhenInvalidPayLoad() {
 
         postBookingRequest.createANewBookingWithInvalidParameters()
-                .then()
+                .then().log().all()
                 .statusCode(500)
                 .time(lessThan(2L), TimeUnit.SECONDS);
     }
@@ -50,13 +53,13 @@ public class PostBookingTest extends BaseTest {
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, EndToEndTests.class})
-    @DisplayName("Validar a criação de mais de uma reserva em sequência")
+    @DisplayName("Validar a criação de mais de uma reserva em sequência. Nesse teste são criadas 2 reservas.")
     public void testCreateTwoBookingsInARow() {
+
         int i = 0;
         while (i < 2) {
             testCreateANewBooking();
             given()
-                    .when()
                     .then()
                     .statusCode(200)
                     .body("size()", greaterThan(0));
@@ -65,17 +68,18 @@ public class PostBookingTest extends BaseTest {
     }
 
     @Test
-    @Ignore("O teste não está executando pois tem o seguinte defeito: a reserva é criada, porém sem os parâmetros extras." +
+    @Ignore("O teste não está executando pois tem o seguinte defeito: a reserva é criada " +
+            "sem os parâmetros extras e retorna o status code 200." +
             "O correto seria não ser criada e retornar erro 400 - bad request.")
-    @Severity(SeverityLevel.NORMAL)
-    @Category({AllTests.class, EndToEndTests.class})
+    @Severity(SeverityLevel.BLOCKER)
+    @Category({AllTests.class, SecurityTests.class})
     @DisplayName("Criar uma reserva enviando mais parâmetros no payload da reserva")
-    public void testAddBookingWithMoreParameters(){
+    public void testCreateBookingWithMoreParameters(){
 
         postBookingRequest.createANewBookingWithMoreParameters()
                 .then()
                 .statusCode(400)
-                .body("size()", greaterThan(0));
+                .time(lessThan(2L), TimeUnit.SECONDS);
     }
 
     @Test

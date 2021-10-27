@@ -5,8 +5,8 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
-
 public class PostAuthRequest {
+
     AuthPayloads authPayloads = new AuthPayloads();
 
     @Step("Retorna o token")
@@ -15,17 +15,16 @@ public class PostAuthRequest {
         return given()
                 .header("Content-Type", "application/json")
                 .when()
-                .body(authPayloads.jsonAuthLogin().toString()) //chama o jsonobject lá do payload
+                .body(authPayloads.jsonAuthLogin().toString())
                 .post("auth");
     }
 
     @Step("Busca o token")
     public String getToken(){
-        return "token="+this.tokenReturn()//a chave token recebe o tokenReturn, que é o método acima que pega o token
+        return "token="+this.tokenReturn()
                 .then()
                 .statusCode(200)
                 .extract()
                 .path("token");
     }
-
 }

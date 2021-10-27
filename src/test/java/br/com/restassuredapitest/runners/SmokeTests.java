@@ -8,6 +8,7 @@ import org.junit.runners.Suite;
 @RunWith(Categories.class)
 @Categories.IncludeCategory(br.com.restassuredapitest.suites.SmokeTests.class)
 @Suite.SuiteClasses({
+
         PostAuthTest.class
 
 })

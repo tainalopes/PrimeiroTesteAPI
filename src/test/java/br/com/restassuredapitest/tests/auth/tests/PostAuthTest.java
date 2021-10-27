@@ -22,6 +22,7 @@ public class PostAuthTest extends BaseTest {
     @Category({AllTests.class, SmokeTests.class})
     @DisplayName("Retorna o token para o usuário")
     public void testValidateTokenReturnForUser(){
+
         postAuthRequest.tokenReturn()
                 .then()
                 .statusCode(200)

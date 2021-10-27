@@ -10,7 +10,6 @@ import org.junit.runners.Suite;
 @Categories.IncludeCategory(br.com.restassuredapitest.suites.ContractTests.class)
 @Suite.SuiteClasses({
 
-        PutBookingTest.class,
         GetBookingTest.class
 
 })

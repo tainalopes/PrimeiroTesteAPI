@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import static io.restassured.RestAssured.given;
 
 public class PostBookingRequest {
+
     BookingPayloads bookingPayloads = new BookingPayloads();
 
     @Step("Criar uma nova reserva")

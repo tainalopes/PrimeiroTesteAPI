@@ -1,6 +1,5 @@
 package br.com.restassuredapitest.runners;
 
-
 import br.com.restassuredapitest.tests.auth.tests.PostAuthTest;
 import br.com.restassuredapitest.tests.booking.tests.DeleteBookingTest;
 import br.com.restassuredapitest.tests.booking.tests.GetBookingTest;
@@ -22,6 +21,7 @@ import org.junit.runners.Suite;
         PutBookingTest.class,
         PostBookingTest.class,
         DeleteBookingTest.class
+
 })
 
 public class AllTests {

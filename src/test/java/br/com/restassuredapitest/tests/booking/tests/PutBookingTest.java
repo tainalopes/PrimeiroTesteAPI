@@ -1,8 +1,9 @@
 package br.com.restassuredapitest.tests.booking.tests;
 
 import br.com.restassuredapitest.base.BaseTest;
+import br.com.restassuredapitest.suites.AcceptanceTests;
 import br.com.restassuredapitest.suites.AllTests;
-import br.com.restassuredapitest.suites.ContractTests;
+import br.com.restassuredapitest.suites.EndToEndTests;
 import br.com.restassuredapitest.tests.auth.requests.PostAuthRequest;
 import br.com.restassuredapitest.tests.booking.requests.GetBookingRequest;
 import br.com.restassuredapitest.tests.booking.requests.PostBookingRequest;
@@ -27,7 +28,7 @@ public class PutBookingTest extends BaseTest{
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Category({AllTests.class, ContractTests.class})
+    @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Altera uma reserva somente utilizando o token")
     public void testUpdateABooKingWithToken(){
 
@@ -46,7 +47,7 @@ public class PutBookingTest extends BaseTest{
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Category({AllTests.class, ContractTests.class})
+    @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Altera uma reserva somente utilizando o Basic auth")
     public void testUpdateABooKingWithBasicAuth(){
 
@@ -65,7 +66,7 @@ public class PutBookingTest extends BaseTest{
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Category({AllTests.class, ContractTests.class})
+    @Category({AllTests.class, EndToEndTests.class})
     @DisplayName("Tenta alterar uma reserva sem token")
     public void testTryUpdateABookingWithoutToken(){
 
@@ -84,7 +85,7 @@ public class PutBookingTest extends BaseTest{
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Category({AllTests.class, ContractTests.class})
+    @Category({AllTests.class, EndToEndTests.class})
     @DisplayName("Tenta alterar uma reserva com um token inválido")
     public void testTryUpdateABookingWithAInvalidToken(){
 
@@ -98,7 +99,7 @@ public class PutBookingTest extends BaseTest{
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Category({AllTests.class, ContractTests.class})
+    @Category({AllTests.class, EndToEndTests.class})
     @DisplayName("Tenta alterar uma reserva que não existe com token")
     public void testTryUpdateABookingThatDoesntExistWithToken(){
 

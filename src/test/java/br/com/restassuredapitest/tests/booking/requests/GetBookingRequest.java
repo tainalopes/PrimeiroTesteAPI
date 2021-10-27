@@ -41,14 +41,14 @@ public class GetBookingRequest {
 
     @Step("Retorna lista de ids com filtro de checkout 2x")
     public Response bookingReturnIdsByFilterWithDoubleCheckouts(){
-        return given().log().all()
+        return given()
                 .when()
                 .get("booking?checkout=2018-11-02&checkout=2018-11-02");
     }
 
     @Step("Retorna lista de ids com filtro de nome, sobrenome, checkin e ckechout")
     public Response bookingReturnIdsByFilterWithFirstnameAndLastnameAndChekinAndCheckout(){
-        return given().log().all()
+        return given()
                 .when()
                 .get("booking?firstname=Nemo&lastname=Nobody&checkin=2010-10-20&checkout=2018-11-02");
     }

@@ -22,6 +22,9 @@ ou então um 202 - accepted. Não ignorei esse teste do meu projeto por não ach
     O teste não está executando pois tem o seguinte defeito: a reserva é criada sem os parâmetros extras e retorna
     o status code 200. Acredito que o correto seria não ser criada e retornar erro 400 - bad request.
 
-
-
-
+                                                   ;,'
+                                             _o_    ;:;'
+                                         ,-.'---`.__ ;
+                                        ((j`=====',-'
+                                         `-\     /
+                                            `-=-'

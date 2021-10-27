@@ -6,6 +6,7 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
 public class PutBookingRequest {
+
     BookingPayloads bookingPayloads = new BookingPayloads();
 
     @Step("Busca uma reserva com token")

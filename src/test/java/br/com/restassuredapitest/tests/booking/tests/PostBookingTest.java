@@ -85,12 +85,12 @@ public class PostBookingTest extends BaseTest {
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, EndToEndTests.class})
-    @DisplayName("Criar uma reserva com Header Accept Inválido")
-    public void testCreateABookingWithInvalidAccept() {
+    @DisplayName("Validar retorno 418 quando o header Accept for inválido")
+    public void testValidateError418WhenInvalidAccept() {
 
         postBookingRequest.createABookingWithInvalidAccept(
                 bookingPayloads.payloadValidBooking())
-                .then()
+                .then().log().all()
                 .statusCode(418)
                 .time(lessThan(2L), TimeUnit.SECONDS);
     }

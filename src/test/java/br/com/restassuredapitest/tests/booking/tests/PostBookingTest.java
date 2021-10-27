@@ -59,10 +59,6 @@ public class PostBookingTest extends BaseTest {
         int i = 0;
         while (i < 2) {
             testCreateANewBooking();
-            given()
-                    .then()
-                    .statusCode(200)
-                    .body("size()", greaterThan(0));
             i++;
         }
     }

@@ -6,6 +6,7 @@ import br.com.restassuredapitest.suites.AllTests;
 import br.com.restassuredapitest.suites.ContractTests;
 import br.com.restassuredapitest.suites.EndToEndTests;
 import br.com.restassuredapitest.tests.booking.requests.GetBookingRequest;
+import br.com.restassuredapitest.tests.booking.requests.PostBookingRequest;
 import br.com.restassuredapitest.utils.Utils;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -21,28 +22,36 @@ import static org.hamcrest.Matchers.greaterThan;
 
 @Feature("Feature - retorno de reservas")
 public class GetBookingTest extends BaseTest {
+
     GetBookingRequest getBookingRequest = new GetBookingRequest();
+    PostBookingRequest postBookingRequest = new PostBookingRequest();
 
     @Test
     @Severity(SeverityLevel.BLOCKER)
     @Category({AllTests.class, ContractTests.class})
     @DisplayName("Garantir o schema do retorno da listagem de reserva")
-    public void testValidateBookingListingSchema(){
+    public void testAssureTheBookingListingSchema(){
+
+        postBookingRequest.createANewBooking();
         getBookingRequest.bookingReturnIds()
                 .then()
                 .statusCode(200)
-                .body(matchesJsonSchema(new File(Utils.getSchemaBasePath("booking", "bookings"))));
+                .body(matchesJsonSchema(new File(Utils.getSchemaBasePath("booking", "bookings"))))
+                .body("booking", notNullValue());
     }
 
     @Test
     @Severity(SeverityLevel.BLOCKER)
     @Category({AllTests.class, ContractTests.class})
     @DisplayName("Garantir o schema do retorno de uma reserva específica")
-    public void testValidateReturnOfASpecificBookingSchema(){
+    public void testAssureTheReturnOfASpecificBookingSchema(){
+
+        postBookingRequest.createANewBooking();
         getBookingRequest.bookingReturnFirstId()
-                .then()
+                .then().log().all()
                 .statusCode(200)
-                .body(matchesJsonSchema(new File(Utils.getSchemaBasePath("booking", "booking"))));
+                .body(matchesJsonSchema(new File(Utils.getSchemaBasePath("booking", "booking"))))
+                .body("size()", greaterThan(0));
     }
 
     @Test
@@ -51,6 +60,7 @@ public class GetBookingTest extends BaseTest {
     @DisplayName("Listar ids das reservas")
     public void testListTheIdsOfBookings(){
 
+        postBookingRequest.createANewBooking();
         getBookingRequest.bookingReturnIds()
                 .then()
                 .statusCode(200)
@@ -60,22 +70,23 @@ public class GetBookingTest extends BaseTest {
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @Category({AllTests.class, AcceptanceTests.class})
-    @DisplayName("Listar uma reserva específica (array na posição 42)")
-    public void testListTheReturnOfASpecificBooking() {
+    @DisplayName("Listar uma reserva específica")
+    public void testListASpecificBooking() {
 
+        postBookingRequest.createANewBooking();
         getBookingRequest.bookingReturnFirstId()
-                .then()
+                .then().log().all()
                 .statusCode(200)
-                .extract()
-                .path("[42].bookingid");
+                .body("size()", greaterThan(0));
     }
 
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Listar ids de reservas utilizando o filtro 'firstname'")
-    public void testListTheIdsOfBookingsByFirstname() {
+    public void testListIdsOfBookingsByFirstname() {
 
+        postBookingRequest.createANewBooking();
         Response booking = getBookingRequest.bookingReturnFirstId();
         String firstname = booking.then().extract().path("firstname");
 
@@ -89,8 +100,9 @@ public class GetBookingTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Listar ids de reservas utilizando o filtro 'lastname'")
-    public void testListTheIdsOfBookingsByLastname() {
+    public void testListIdsOfBookingsByLastname() {
 
+        postBookingRequest.createANewBooking();
         Response booking = getBookingRequest.bookingReturnFirstId();
         String lastname = booking.then().extract().path("lastname");
 
@@ -104,8 +116,9 @@ public class GetBookingTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Listar ids de reservas utilizando o filtro 'checkin'")
-    public void testListTheIdsOfBookingsByCheckin() {
+    public void testListIdsOfBookingsByCheckin() {
 
+        postBookingRequest.createANewBooking();
         Response booking = getBookingRequest.bookingReturnFirstId();
         String checkin = booking.then().extract().path("bookingdates.checkin");
 
@@ -119,47 +132,41 @@ public class GetBookingTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Listar ids de reservas utilizando o filtro 'checkout'")
-    public void testListTheIdsOfBookingsByCheckout() {
+    public void testListIdsOfBookingsByCheckout() {
 
+        postBookingRequest.createANewBooking();
         Response booking = getBookingRequest.bookingReturnFirstId();
         String checkout = booking.then().extract().path("bookingdates.checkout");
 
-        System.out.println(getBookingRequest.bookingReturnIdsByFilter("checkout", checkout)
-                .then()
+        getBookingRequest.bookingReturnIdsByFilter("bookingdates.checkout", checkout)
+                .then().log().all()
                 .statusCode(200)
-                .body("size()", greaterThan(0)));
+                .body("size()", greaterThan(0));
     }
 
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Listar ids de reservas utilizando o filtro 'checkout' duas vezes")
-    public void testListTheIdsOfBookingsByCheckinAndCheckout() {
+    public void testListIdsOfBookingsByCheckinAndCheckout() {
+
         getBookingRequest.bookingReturnIdsByFilterWithDoubleCheckouts()
                 .then()
                 .statusCode(500);
     }
 
-    //--------------------------------------------------------------------------------------------------
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Listar ids de reservas utilizando o filtro 'name', 'checkin' e 'checkout'")
-    public void testListTheIdsOfBookingsByNameAndCheckinAndCheckout() {
+    public void testListIdsOfBookingsByNameAndCheckinAndCheckout() {
 
-        Response booking = getBookingRequest.bookingReturnFirstId();
-        String firstname = booking.then().extract().path("firstname");
-        String lastname = booking.then().extract().path("lastname");
-        String checkin = booking.then().extract().path("bookingdates.checkin");
-        String checkout = booking.then().extract().path("bookingdates.checkout");
-
-        System.out.println(getBookingRequest.bookingReturnIdsByFilter("firstname", firstname, "lastname", lastname,
-                        "checkin", checkin, "checkout", checkout)
+        postBookingRequest.createANewBooking();
+        getBookingRequest.bookingReturnIdsByFilterWithFirstnameAndLastnameAndChekinAndCheckout()
                 .then().log().all()
                 .statusCode(200)
-                .body("booking", notNullValue()));
+                .body("size()", greaterThan(0));
     }
-    //--------------------------------------------------------------------------------------------------
 
     @Test
     @Severity(SeverityLevel.NORMAL)
@@ -167,6 +174,7 @@ public class GetBookingTest extends BaseTest {
     @DisplayName("Visualizar erro de servidor 500 quando enviar filtro mal formatado")
     public void testReturnErrorWithABadFilter() {
 
+        postBookingRequest.createANewBooking();
         getBookingRequest.bookingReturnIdsByFilter("checkin","26-10-2021")
                 .then()
                 .statusCode(500);

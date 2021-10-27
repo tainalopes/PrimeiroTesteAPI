@@ -1,14 +1,26 @@
-Anotações gerais:
+
+
+    ANOTAÇÕES GERAIS SOBRE OS TESTES NESTA API:
 
 1 - Tendo em vista que para criar uma nova reserva todos os parâmetros do body são 'required', segundo o schema,
 quando eu crio uma reserva sem o parâmetro "additionalneeds", a reserva é realizada com sucesso, quando acredito que
 deveria retornar status code 400 - bad request.
 
-2 - Quando faço a exclução de uma reserva, o retorno recebido é 201 - created, acredito que o correto deva ser 200 - ok
-ou então um 202 - accepted.
+2 - Segundo a documentação, para pesquisar uma reserva com os parâmetros checkin e checkout deve ser feito da seguinte forma:
+.../booking?checkin=2014-03-13&checkout=2014-05-21
+    E para pesquisar mais parâmetros:
+.../booking?firstname=Jim&lastname=Brown&totalprice=111&depositpaid=true&bookingdates%5Bcheckin%5D=2018-01-01&bookingdates%5Bcheckout%5D=2019-01-01
+    Ou seja, a pesquisa de checkin/checkout estão diferentes.
+    Se eu pesquisar somente as datas, tanto a pesquisa checkin/checkout quanto a bookingdates.checkin/bookingdates.checkout funcionam.
 
-Testes ignorados no projeto:
-1 - Quando faço a alteração
+3 - Em DeleteBookingTest.class: quando faço a exclusão de uma reserva, o retorno recebido é 201 - created, acredito que o correto deva ser 200 - ok
+ou então um 202 - accepted. Não ignorei esse teste do meu projeto por não achar tão grave.
+
+    TESTE IGNORADO NO PROJETO:
+
+1 - Em PostBookingTest.class: @DisplayName("Criar uma reserva enviando mais parâmetros no payload da reserva"
+    O teste não está executando pois tem o seguinte defeito: a reserva é criada sem os parâmetros extras e retorna
+    o status code 200. Acredito que o correto seria não ser criada e retornar erro 400 - bad request.
 
 
 

@@ -50,6 +50,6 @@ public class GetBookingRequest {
     public Response bookingReturnIdsByFilterWithFirstnameAndLastnameAndChekinAndCheckout(){
         return given()
                 .when()
-                .get("booking?firstname=Nemo&lastname=Nobody&checkin=2010-10-20&checkout=2018-11-02");
+                .get("booking?firstname=Nemo&lastname=Nobody&checkin=2018-07-03&checkout=2018-11-02");
     }
 }

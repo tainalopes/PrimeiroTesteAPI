@@ -48,7 +48,7 @@ public class GetBookingTest extends BaseTest {
 
         postBookingRequest.createANewBooking();
         getBookingRequest.bookingReturnFirstId()
-                .then().log().all()
+                .then()
                 .statusCode(200)
                 .body(matchesJsonSchema(new File(Utils.getSchemaBasePath("booking", "booking"))))
                 .body("size()", greaterThan(0));
@@ -139,7 +139,7 @@ public class GetBookingTest extends BaseTest {
         String checkout = booking.then().extract().path("bookingdates.checkout");
 
         getBookingRequest.bookingReturnIdsByFilter("bookingdates.checkout", checkout)
-                .then().log().all()
+                .then()
                 .statusCode(200)
                 .body("size()", greaterThan(0));
     }
@@ -148,7 +148,7 @@ public class GetBookingTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Category({AllTests.class, AcceptanceTests.class})
     @DisplayName("Listar ids de reservas utilizando o filtro 'checkout' duas vezes")
-    public void testListIdsOfBookingsByCheckinAndCheckout() {
+    public void testListIdsOfBookingsByTwoCheckout() {
 
         getBookingRequest.bookingReturnIdsByFilterWithDoubleCheckouts()
                 .then()
@@ -161,9 +161,9 @@ public class GetBookingTest extends BaseTest {
     @DisplayName("Listar ids de reservas utilizando o filtro 'name', 'checkin' e 'checkout'")
     public void testListIdsOfBookingsByNameAndCheckinAndCheckout() {
 
-        postBookingRequest.createANewBooking();
+        System.out.println(postBookingRequest.createANewBooking());
         getBookingRequest.bookingReturnIdsByFilterWithFirstnameAndLastnameAndChekinAndCheckout()
-                .then().log().all()
+                .then()
                 .statusCode(200)
                 .body("size()", greaterThan(0));
     }

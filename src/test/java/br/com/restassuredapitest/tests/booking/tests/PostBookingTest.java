@@ -45,7 +45,7 @@ public class PostBookingTest extends BaseTest {
     public void testValidateErrorwhenInvalidPayLoad() {
 
         postBookingRequest.createANewBookingWithInvalidParameters()
-                .then().log().all()
+                .then()
                 .statusCode(500)
                 .time(lessThan(2L), TimeUnit.SECONDS);
     }
@@ -90,7 +90,7 @@ public class PostBookingTest extends BaseTest {
 
         postBookingRequest.createABookingWithInvalidAccept(
                 bookingPayloads.payloadValidBooking())
-                .then().log().all()
+                .then()
                 .statusCode(418)
                 .time(lessThan(2L), TimeUnit.SECONDS);
     }

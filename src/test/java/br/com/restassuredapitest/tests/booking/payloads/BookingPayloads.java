@@ -8,7 +8,7 @@ public class BookingPayloads{
         JSONObject payload = new JSONObject();
         JSONObject bookingDates = new JSONObject();
 
-        bookingDates.put("checkin","2010-10-20");
+        bookingDates.put("checkin","2018-07-04");
         bookingDates.put("checkout", "2018-11-02");
 
         payload.put("firstname", "Nemo");

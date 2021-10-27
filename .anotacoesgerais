@@ -16,6 +16,9 @@ deveria retornar status code 400 - bad request.
 3 - Em DeleteBookingTest.class: quando faço a exclusão de uma reserva, o retorno recebido é 201 - created, acredito que o correto deva ser 200 - ok
 ou então um 202 - accepted. Não ignorei esse teste do meu projeto por não achar tão grave.
 
+4 - Em GetBookingTest.class: quando uso o filtro de busca para nome, checkin e checkout, de alguma maneira ele não consegue localizar
+quando a data de checkin é igual a data pesquisada. Segundo a documentação, essa pesquisa deve ser válida.
+
     TESTE IGNORADO NO PROJETO:
 
 1 - Em PostBookingTest.class: @DisplayName("Criar uma reserva enviando mais parâmetros no payload da reserva"

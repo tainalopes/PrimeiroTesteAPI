@@ -5,6 +5,7 @@ import br.com.restassuredapitest.suites.AllTests;
 import br.com.restassuredapitest.suites.ContractTests;
 import br.com.restassuredapitest.tests.auth.requests.PostAuthRequest;
 import br.com.restassuredapitest.tests.booking.requests.GetBookingRequest;
+import br.com.restassuredapitest.tests.booking.requests.PostBookingRequest;
 import br.com.restassuredapitest.tests.booking.requests.PutBookingRequest;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -18,9 +19,11 @@ import static org.hamcrest.Matchers.lessThan;
 
 @Feature("Feature - atualização de reservas")
 public class PutBookingTest extends BaseTest{
+
     PutBookingRequest putBookingRequest = new PutBookingRequest();
     GetBookingRequest getBookingRequest = new GetBookingRequest();
     PostAuthRequest postAuthRequest = new PostAuthRequest();
+    PostBookingRequest postBookingRequest = new PostBookingRequest();
 
     @Test
     @Severity(SeverityLevel.NORMAL)
@@ -28,6 +31,7 @@ public class PutBookingTest extends BaseTest{
     @DisplayName("Altera uma reserva somente utilizando o token")
     public void testUpdateABooKingWithToken(){
 
+        postBookingRequest.createANewBooking();
         int firstId = getBookingRequest.bookingReturnIds()
                 .then()
                 .statusCode(200)
@@ -45,6 +49,8 @@ public class PutBookingTest extends BaseTest{
     @Category({AllTests.class, ContractTests.class})
     @DisplayName("Altera uma reserva somente utilizando o Basic auth")
     public void testUpdateABooKingWithBasicAuth(){
+
+        postBookingRequest.createANewBooking();
         int firstId = getBookingRequest.bookingReturnIds()
                 .then()
                 .statusCode(200)
@@ -62,6 +68,8 @@ public class PutBookingTest extends BaseTest{
     @Category({AllTests.class, ContractTests.class})
     @DisplayName("Tenta alterar uma reserva sem token")
     public void testTryUpdateABookingWithoutToken(){
+
+        postBookingRequest.createANewBooking();
         int firstId = getBookingRequest.bookingReturnIds()
                 .then()
                 .statusCode(200)
@@ -80,6 +88,7 @@ public class PutBookingTest extends BaseTest{
     @DisplayName("Tenta alterar uma reserva com um token inválido")
     public void testTryUpdateABookingWithAInvalidToken(){
 
+        postBookingRequest.createANewBooking();
         putBookingRequest.updateBookingToken(
                 getBookingRequest.returnFirtsId(), "token inválido")
                 .then()
@@ -88,10 +97,12 @@ public class PutBookingTest extends BaseTest{
     }
 
     @Test
+    @Severity(SeverityLevel.NORMAL)
+    @Category({AllTests.class, ContractTests.class})
     @DisplayName("Tenta alterar uma reserva que não existe com token")
     public void testTryUpdateABookingThatDoesntExistWithToken(){
 
-        putBookingRequest.updateBookingToken(42, postAuthRequest.getToken())
+        putBookingRequest.updateBookingToken(999999999, postAuthRequest.getToken())
                 .then()
                 .statusCode(405)
                 .time(lessThan(2L), TimeUnit.SECONDS);
